@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp">
+
+    <LinearLayout
+        android:id="@+id/ll_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/ib_month_prev"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_button_press"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_arrow_left_grey_16" />
+
+        <TextView
+            android:id="@+id/tv_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="3dp"
+            android:textColor="@color/secondary_40"
+            android:textSize="16sp"
+            tools:text="Tháng 8" />
+
+        <ImageButton
+            android:id="@+id/ib_month_next"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_button_press"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_arrow_right_grey_16" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/ib_year_prev"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:background="@drawable/bg_button_press"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_arrow_left_grey_16" />
+
+        <TextView
+            android:id="@+id/tv_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:textColor="@color/secondary_40"
+            android:textSize="16sp"
+            tools:text="2022" />
+
+        <ImageButton
+            android:id="@+id/ib_year_next"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:background="@drawable/bg_button_press"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_arrow_right_grey_16" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_below="@id/ll_month"
+        android:layout_marginTop="20dp"
+        android:background="#E4E5E7" />
+
+    <LinearLayout
+        android:id="@+id/ll_days_of_week"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_below="@id/v_line"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="T2"
+            android:textColor="#988F90"
+            android:textSize="11sp"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="T3"
+            android:textColor="#988F90"
+            android:textSize="11sp"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="T4"
+            android:textColor="#988F90"
+            android:textSize="11sp"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="T5"
+            android:textColor="#988F90"
+            android:textSize="11sp"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="T6"
+            android:textColor="#988F90"
+            android:textSize="11sp"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="T7"
+            android:textColor="#988F90"
+            android:textSize="11sp"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="CN"
+            android:textColor="#988F90"
+            android:textSize="11sp"
+            tools:ignore="SmallSp" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_days_of_week"
+        android:overScrollMode="never"
+        android:scrollbars="none" />
+
+    <com.example.datepickerdemo.educa.view.ExpandIconView
+        android:id="@+id/expandIcon"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_below="@id/rv_calendar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+</RelativeLayout>
