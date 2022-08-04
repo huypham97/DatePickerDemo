@@ -35,43 +35,26 @@ class CalendarEducaActivity : AppCompatActivity(),
     }
 
     override fun onDateSelected(date: Long, isChoose: Boolean) {
-        if (isChoose) {
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = date
-            val day = calendar[Calendar.DATE]
-            val month = calendar[Calendar.MONTH]
-            val year = calendar[Calendar.YEAR]
-//            tvMonth?.text = "Tháng ${String.format("%02d", month + 1)}"
-//            tvYear?.text = "$year"
-        } else {
-            val calendar = Calendar.getInstance()
-            val month = calendar[Calendar.MONTH]
-            val year = calendar[Calendar.YEAR]
-        }
+        //
     }
 
     override fun onGenerateDaysOfMonthCompleted(
         dateSelects: MutableList<DateSelect>,
         calendarSelect: Calendar
     ) {
-        val calendarCurrent = Calendar.getInstance()
-        val monthCurrent = calendarCurrent[Calendar.MONTH]
-        val yearCurrent = calendarCurrent[Calendar.YEAR]
-        val allowPrev = calendarSelect.get(Calendar.YEAR) >= yearCurrent && calendarSelect.get(
-            Calendar.MONTH
-        ) > monthCurrent
-//        btnMonthPrev?.apply {
-////            isEnabled = allowPrev
-////            isSelected = allowPrev
-//        }
         calendarView.replaceDataList(dateSelects)
     }
 
     override fun onGenDateSelectCompleted(date: Long) {
         val calendarCurrent = Calendar.getInstance()
         calendarCurrent.timeInMillis = date
-//        tvMonth?.text = "Tháng ${calendarCurrent.get(Calendar.MONTH) + 1}"
-//        tvYear?.text = "${calendarCurrent.get(Calendar.YEAR)}"
+        calendarView.setMonthYearData(
+            "Tháng ${calendarCurrent.get(Calendar.MONTH) + 1}/${
+                calendarCurrent.get(
+                    Calendar.YEAR
+                )
+            }"
+        )
         daysOfMonthGenerator?.bindDataGenDays()
     }
 

@@ -98,14 +98,14 @@ class DaysOfMonthEducaGenerator(context: Context) {
     private suspend fun daysOfMonthGenTask() {
         val daysGen = mutableListOf<DateSelect>()
         calendarSelected = GregorianCalendar(yearSelected, monthSelected, 1)
-        var daysCountMonthSelect = calendarSelected.getActualMaximum(Calendar.DAY_OF_MONTH)
-        var dayOfWeekStatSelect = calendarSelected.get(Calendar.DAY_OF_WEEK)
+        val daysCountMonthSelect = calendarSelected.getActualMaximum(Calendar.DAY_OF_MONTH)
+        val dayOfWeekStatSelect = calendarSelected.get(Calendar.DAY_OF_WEEK)
         var daysInMonthBefore = calendarBefore.getActualMaximum(Calendar.DAY_OF_MONTH)
-        var daysCountMonthBefore = when (dayOfWeekStatSelect) {
+        val daysCountMonthBefore = when (dayOfWeekStatSelect) {
             in 2..7 -> dayOfWeekStatSelect - 1 - 1
             else -> Calendar.DAY_OF_WEEK - 1
         }
-        var daysCountMonthAfter = DAYS_COUNT - daysCountMonthSelect - daysCountMonthBefore
+        val daysCountMonthAfter = DAYS_COUNT - daysCountMonthSelect - daysCountMonthBefore
 
         if (daysCountMonthBefore > 0) {
             for (i in 0 until daysCountMonthBefore) {

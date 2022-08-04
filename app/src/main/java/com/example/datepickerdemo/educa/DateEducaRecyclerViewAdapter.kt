@@ -72,6 +72,8 @@ class DateEducaRecyclerViewAdapter(context: Context) :
     inner class DayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private var tvDay: TextView = itemView.findViewById(R.id.row_recycler_view_day_select_tvDay)
+        private var vNotify: View =
+            itemView.findViewById(R.id.v_row_recycler_view_day_select_notify)
         private var vMain: View = itemView
 
         fun bindData(dateSelect: DateSelect) {
@@ -80,9 +82,11 @@ class DateEducaRecyclerViewAdapter(context: Context) :
             val month = calendar.get(Calendar.MONTH)
             val year = calendar.get(Calendar.YEAR)
             var colorTextDisplay = dateSelect.textColor
-            if (days < calendarToday.get(Calendar.DATE)
-                && month == calendarToday.get(Calendar.MONTH)
-                && year == calendarToday.get(Calendar.YEAR)
+            val calendarSelect = Calendar.getInstance()
+            calendarSelect.timeInMillis = dateSelect.date
+            if ((days < calendarToday.get(Calendar.DATE)
+                        && month == calendarToday.get(Calendar.MONTH)
+                        && year == calendarToday.get(Calendar.YEAR)) || calendarSelect < calendarToday
             ) {
                 dateSelect.available = false
                 colorTextDisplay = colorDayUnavailable
@@ -115,10 +119,13 @@ class DateEducaRecyclerViewAdapter(context: Context) :
                 visibility = if (dateSelect.isDisplay) View.VISIBLE else View.INVISIBLE
                 isEnabled = dateSelect.available
             }
+
+            vNotify.visibility = if (dateSelect.isNotify) View.VISIBLE else View.GONE
+
             vMain.apply {
                 isEnabled = dateSelect.available
                 setOnClickListener {
-                    var isChoose = false
+                    val isChoose: Boolean
                     if (dateSelect.date == calendarSelected) {
                         calendarSelected = 0L
                         isChoose = false

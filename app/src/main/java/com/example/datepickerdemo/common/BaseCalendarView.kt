@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.ScrollView
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.datepickerdemo.DateSelect
@@ -21,12 +22,13 @@ abstract class BaseCalendarView : ScrollView {
     protected lateinit var expandIconView: ExpandIconView
     protected var mExpandIconColor = Color.BLACK
     protected var rv: RecyclerView? = null
-    protected lateinit var adapter: DateEducaRecyclerViewAdapter
+    protected lateinit var mAdapter: DateEducaRecyclerViewAdapter
     private var listener: DateEducaRecyclerViewAdapter.OnDateSelectListener? = null
     private lateinit var btnMonthPrev: ImageButton
     private lateinit var btnMonthNext: ImageButton
+    private lateinit var tvMonthYear: TextView
 
-    open var state = STATE_COLLAPSED
+    open var state = STATE_EXPANDED
 
     companion object {
         // State
@@ -58,12 +60,13 @@ abstract class BaseCalendarView : ScrollView {
         rv = rootView.findViewById(R.id.rv_calendar)
         btnMonthPrev = rootView.findViewById(R.id.ib_month_prev)
         btnMonthNext = rootView.findViewById(R.id.ib_month_next)
+        tvMonthYear = rootView.findViewById(R.id.tv_month_year)
 
-        adapter = DateEducaRecyclerViewAdapter(context)
-        listener?.let { adapter.setOnDateSelectListener(it) }
+        mAdapter = DateEducaRecyclerViewAdapter(context)
+        listener?.let { mAdapter.setOnDateSelectListener(it) }
         rv?.apply {
             layoutManager = GridLayoutManager(context, 7)
-            adapter = this@BaseCalendarView.adapter
+            adapter = mAdapter
         }
         btnMonthPrev.setOnClickListener {
             onButtonPrevClickListener?.invoke()
@@ -80,11 +83,11 @@ abstract class BaseCalendarView : ScrollView {
 
     fun setOnDateSelectListener(listener: DateEducaRecyclerViewAdapter.OnDateSelectListener) {
         this.listener = listener
-        adapter.setOnDateSelectListener(listener)
+        mAdapter.setOnDateSelectListener(listener)
     }
 
     fun replaceDataList(days: MutableList<DateSelect>) {
-        adapter.replaceDataList(days)
+        mAdapter.replaceDataList(days)
     }
 
     fun setOnButtonPrevClickListener(onButtonPrevClickListener: (() -> Unit)) {
@@ -93,5 +96,9 @@ abstract class BaseCalendarView : ScrollView {
 
     fun setOnButtonNextClickListener(onButtonNextClickListener: (() -> Unit)) {
         this.onButtonNextClickListener = onButtonNextClickListener
+    }
+
+    fun setMonthYearData(data: String) {
+        this.tvMonthYear.text = data
     }
 }

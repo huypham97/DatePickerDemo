@@ -5,9 +5,7 @@ import android.util.AttributeSet
 import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.GridLayout
-import com.example.datepickerdemo.DateSelect
 import com.example.datepickerdemo.common.BaseCalendarView
-import java.util.*
 
 class CollapsibleCalendarView : BaseCalendarView {
 
@@ -26,7 +24,8 @@ class CollapsibleCalendarView : BaseCalendarView {
 
     override fun initViews() {
         super.initViews()
-        expandIconView.setState(ExpandIconView.LESS, true)
+        expandIconView.setState(ExpandIconView.MORE, true)
+        collapse(400)
         expandIconView.setOnClickListener {
             if (expanded) {
                 collapse(400)
@@ -51,12 +50,13 @@ class CollapsibleCalendarView : BaseCalendarView {
     private fun collapse(duration: Int) {
         if (state == STATE_EXPANDED) {
             state = STATE_PROCESSING
-            adapter.getItemHeight()
+            mAdapter.getItemHeight()
             val anim = object : Animation() {
                 override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
                     rv?.apply {
                         currentHeight = layoutParams.height
-                        layoutParams.height = getChildAt(0).height
+                        if (mAdapter.itemCount > 0)
+                            layoutParams.height = getChildAt(0).height
                         requestLayout()
                         state = STATE_COLLAPSED
                     }

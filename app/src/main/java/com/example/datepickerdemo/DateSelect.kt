@@ -5,5 +5,6 @@ data class DateSelect(
     var isDisplay: Boolean = false,
     var isFullyBooked: Boolean = false,
     var textColor: Int = 0,
-    var available: Boolean = false
+    var available: Boolean = false,
+    var isNotify: Boolean = false
 )
