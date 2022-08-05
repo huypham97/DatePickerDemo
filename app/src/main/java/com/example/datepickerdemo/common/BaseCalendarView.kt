@@ -21,14 +21,15 @@ abstract class BaseCalendarView : ScrollView {
     protected lateinit var mInflater: LayoutInflater
     protected lateinit var expandIconView: ExpandIconView
     protected var mExpandIconColor = Color.BLACK
-    protected var rv: RecyclerView? = null
+    protected lateinit var rv: RecyclerView
     protected lateinit var mAdapter: DateEducaRecyclerViewAdapter
     private var listener: DateEducaRecyclerViewAdapter.OnDateSelectListener? = null
     private lateinit var btnMonthPrev: ImageButton
     private lateinit var btnMonthNext: ImageButton
     private lateinit var tvMonthYear: TextView
+    protected lateinit var svContainer: ScrollView
 
-    open var state = STATE_EXPANDED
+    open var state = STATE_COLLAPSED
 
     companion object {
         // State
@@ -61,6 +62,7 @@ abstract class BaseCalendarView : ScrollView {
         btnMonthPrev = rootView.findViewById(R.id.ib_month_prev)
         btnMonthNext = rootView.findViewById(R.id.ib_month_next)
         tvMonthYear = rootView.findViewById(R.id.tv_month_year)
+        svContainer = rootView.findViewById(R.id.sv_container)
 
         mAdapter = DateEducaRecyclerViewAdapter(context)
         listener?.let { mAdapter.setOnDateSelectListener(it) }

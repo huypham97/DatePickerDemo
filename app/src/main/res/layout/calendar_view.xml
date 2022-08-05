@@ -139,19 +139,26 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_calendar"
+    <ScrollView
+        android:id="@+id/sv_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ll_days_of_week"
-        android:overScrollMode="never"
-        android:scrollbars="none" />
+        android:layout_below="@id/ll_days_of_week">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+
+    </ScrollView>
 
     <com.example.datepickerdemo.educa.view.ExpandIconView
         android:id="@+id/expandIcon"
         android:layout_width="match_parent"
         android:layout_height="24dp"
-        android:layout_below="@id/rv_calendar"
+        android:layout_below="@id/sv_container"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
 
