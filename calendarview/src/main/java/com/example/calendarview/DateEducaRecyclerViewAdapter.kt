@@ -1,4 +1,4 @@
-package com.example.datepickerdemo.educa
+package com.example.calendarview
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.datepickerdemo.DateSelect
-import com.example.datepickerdemo.R
 import java.util.*
 
 class DateEducaRecyclerViewAdapter(context: Context) :

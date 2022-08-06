@@ -1,11 +1,11 @@
-package com.example.datepickerdemo.educa.view
+package com.example.calendarview.view
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.GridLayout
-import com.example.datepickerdemo.common.BaseCalendarView
+import com.example.calendarview.common.BaseCalendarView
 
 class CollapsibleCalendarView : BaseCalendarView {
 
@@ -24,8 +24,6 @@ class CollapsibleCalendarView : BaseCalendarView {
 
     override fun initViews() {
         super.initViews()
-//        expandIconView.setState(ExpandIconView.MORE, true)
-//        collapse(400)
         expandIconView.setOnClickListener {
             if (expanded) {
                 collapse(400)

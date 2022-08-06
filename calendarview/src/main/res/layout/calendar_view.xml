@@ -154,7 +154,7 @@
 
     </ScrollView>
 
-    <com.example.datepickerdemo.educa.view.ExpandIconView
+    <com.example.calendarview.view.ExpandIconView
         android:id="@+id/expandIcon"
         android:layout_width="match_parent"
         android:layout_height="24dp"

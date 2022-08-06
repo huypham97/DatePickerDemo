@@ -1,11 +1,12 @@
-package com.example.datepickerdemo.educa
+package com.example.datepickerdemo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.datepickerdemo.DateSelect
-import com.example.datepickerdemo.R
-import com.example.datepickerdemo.educa.view.CollapsibleCalendarView
+import com.example.calendarview.DateEducaRecyclerViewAdapter
+import com.example.calendarview.DaysOfMonthEducaGenerator
+import com.example.calendarview.view.CollapsibleCalendarView
 import java.util.*
+
 
 class CalendarEducaActivity : AppCompatActivity(),
     DateEducaRecyclerViewAdapter.OnDateSelectListener,
@@ -38,13 +39,6 @@ class CalendarEducaActivity : AppCompatActivity(),
         //
     }
 
-    override fun onGenerateDaysOfMonthCompleted(
-        dateSelects: MutableList<DateSelect>,
-        calendarSelect: Calendar
-    ) {
-        calendarView.replaceDataList(dateSelects)
-    }
-
     override fun onGenDateSelectCompleted(date: Long) {
         val calendarCurrent = Calendar.getInstance()
         calendarCurrent.timeInMillis = date
@@ -56,6 +50,13 @@ class CalendarEducaActivity : AppCompatActivity(),
             }"
         )
         daysOfMonthGenerator?.bindDataGenDays()
+    }
+
+    override fun onGenerateDaysOfMonthCompleted(
+        dateSelects: MutableList<com.example.calendarview.DateSelect>,
+        calendarSelect: Calendar
+    ) {
+        calendarView.replaceDataList(dateSelects)
     }
 
 }

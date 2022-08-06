@@ -1,4 +1,4 @@
-package com.example.datepickerdemo.educa.view;
+package com.example.calendarview.view;
 
 
 /*
@@ -39,7 +39,7 @@ import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.datepickerdemo.R;
+import com.example.calendarview.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -79,6 +79,7 @@ public class ExpandIconView extends View {
     private int padding;
     @Nullable
     private ValueAnimator arrowAnimator;
+
     public ExpandIconView(@NonNull Context context) {
         this(context, null);
     }

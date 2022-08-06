@@ -1,4 +1,4 @@
-package com.example.datepickerdemo.common
+package com.example.calendarview.common
 
 import android.content.Context
 import android.graphics.Color
@@ -9,10 +9,10 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.datepickerdemo.DateSelect
-import com.example.datepickerdemo.R
-import com.example.datepickerdemo.educa.DateEducaRecyclerViewAdapter
-import com.example.datepickerdemo.educa.view.ExpandIconView
+import com.example.calendarview.DateEducaRecyclerViewAdapter
+import com.example.calendarview.DateSelect
+import com.example.calendarview.R
+import com.example.calendarview.view.ExpandIconView
 
 abstract class BaseCalendarView : ScrollView {
 
@@ -66,7 +66,7 @@ abstract class BaseCalendarView : ScrollView {
 
         mAdapter = DateEducaRecyclerViewAdapter(context)
         listener?.let { mAdapter.setOnDateSelectListener(it) }
-        rv?.apply {
+        rv.apply {
             layoutManager = GridLayoutManager(context, 7)
             adapter = mAdapter
         }

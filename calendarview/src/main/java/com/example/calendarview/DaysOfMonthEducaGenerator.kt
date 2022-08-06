@@ -1,16 +1,14 @@
-package com.example.datepickerdemo.common
+package com.example.calendarview
 
 import android.content.Context
 import androidx.core.content.ContextCompat
-import com.example.datepickerdemo.DateSelect
-import com.example.datepickerdemo.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 
-class DaysOfMonthGenerator(context: Context) {
+class DaysOfMonthEducaGenerator(context: Context) {
 
     private var onGenerateDaysOfMonthCompleteListener: OnGenerateDaysOfMonthCompleteListener? = null
     private var onGenDateSelectCompleteListener: OnGenDateSelectCompleteListener? = null
@@ -21,8 +19,7 @@ class DaysOfMonthGenerator(context: Context) {
     private var yearSelected = 0
 
     private val colorDayUnavailable = ContextCompat.getColor(context, R.color.colorDayUnavailable)
-    private val colorDayAvailable = ContextCompat.getColor(context, R.color.colorDayAvailable)
-    private val colorDayFullyBooked = ContextCompat.getColor(context, R.color.colorDayFullyBooked)
+    private val colorDayAvailable = ContextCompat.getColor(context, R.color.colorDayEducaAvailable)
 
     companion object {
         private const val DAYS_COUNT = 35
@@ -102,7 +99,10 @@ class DaysOfMonthGenerator(context: Context) {
         val daysCountMonthSelect = calendarSelected.getActualMaximum(Calendar.DAY_OF_MONTH)
         val dayOfWeekStatSelect = calendarSelected.get(Calendar.DAY_OF_WEEK)
         var daysInMonthBefore = calendarBefore.getActualMaximum(Calendar.DAY_OF_MONTH)
-        val daysCountMonthBefore = dayOfWeekStatSelect - 1
+        val daysCountMonthBefore = when (dayOfWeekStatSelect) {
+            in 2..7 -> dayOfWeekStatSelect - 1 - 1
+            else -> Calendar.DAY_OF_WEEK - 1
+        }
         val daysCountMonthAfter = DAYS_COUNT - daysCountMonthSelect - daysCountMonthBefore
 
         if (daysCountMonthBefore > 0) {
@@ -137,11 +137,11 @@ class DaysOfMonthGenerator(context: Context) {
                 val dateSelect = DateSelect()
                 calendarAfter.set(Calendar.DAY_OF_MONTH, i + 1)
                 dateSelect.apply {
-                    textColor = colorDayAvailable
-                    isDisplay = false
-                    date = calendarAfter.timeInMillis
-                    isFullyBooked = false
-                    available = false
+                    textColor = colorDayAvailable;
+                    isDisplay = false;
+                    date = calendarAfter.timeInMillis;
+                    isFullyBooked = false;
+                    available = false;
                 }
                 daysGen.add(dateSelect)
             }

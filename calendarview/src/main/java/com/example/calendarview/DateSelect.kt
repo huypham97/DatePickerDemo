@@ -1,4 +1,4 @@
-package com.example.datepickerdemo
+package com.example.calendarview
 
 data class DateSelect(
     var date: Long = 0,
