@@ -84,7 +84,7 @@ class DateEducaRecyclerViewAdapter(context: Context) :
             calendarSelect.timeInMillis = dateSelect.date
             if ((days < calendarToday.get(Calendar.DATE)
                         && month == calendarToday.get(Calendar.MONTH)
-                        && year == calendarToday.get(Calendar.YEAR)) || calendarSelect < calendarToday
+                        && year == calendarToday.get(Calendar.YEAR))
             ) {
                 dateSelect.available = false
                 colorTextDisplay = colorDayUnavailable
