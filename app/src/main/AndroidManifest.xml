@@ -13,8 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DatePickerDemo"
         tools:targetApi="31">
+        <activity android:name=".CalendarEducaActivity" />
         <activity
-            android:name=".CalendarEducaActivity"
+            android:name=".WheelPickerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

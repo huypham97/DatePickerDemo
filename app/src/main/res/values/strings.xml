@@ -2,4 +2,7 @@
     <string name="app_name">DatePickerDemo</string>
     <string name="month_text">Tháng</string>
     <string name="month_text_format">Tháng %d</string>
+    <string name="Year">Y</string>
+    <string name="Month">M</string>
+    <string name="Day">D</string>
 </resources>
