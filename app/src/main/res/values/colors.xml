@@ -20,4 +20,9 @@
     <color name="colorDayEducaAvailable">#1F1A1B</color>
     <color name="colorDayFullyBooked">#AD8AD8</color>
     <color name="secondary_40">#7B3EBA</color>
+    <color name="color_3_dark_blue">#152335</color>
+    <color name="color_4_blue">#3399ff</color>
+    <color name="material_grey_300">#ffe0e0e0</color>
+    <color name="blue_color">#21314D</color>
+    <color name="picker_divider_color">#E0E0E0</color>
 </resources>
