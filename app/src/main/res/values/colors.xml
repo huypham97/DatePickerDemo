@@ -25,4 +25,6 @@
     <color name="material_grey_300">#ffe0e0e0</color>
     <color name="blue_color">#21314D</color>
     <color name="picker_divider_color">#E0E0E0</color>
+    <color name="pink">#F1DAFF</color>
+    <color name="pink_highlight">#A970E2</color>
 </resources>

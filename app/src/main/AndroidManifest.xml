@@ -14,10 +14,13 @@
         android:theme="@style/Theme.DatePickerDemo"
         tools:targetApi="31">
         <activity
+            android:name=".NumberPickerActivity"
+            android:exported="false" />
+        <activity
             android:name=".CalendarEducaActivity"
             android:exported="false" />
         <activity
-            android:name=".NumberPickerActivity"
+            android:name=".ChartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
