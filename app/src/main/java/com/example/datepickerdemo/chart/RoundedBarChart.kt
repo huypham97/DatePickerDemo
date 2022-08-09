@@ -1,12 +1,15 @@
 package com.example.datepickerdemo.chart
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Path
+import android.graphics.*
+import android.graphics.Paint.Align
+import android.text.TextPaint
 import android.util.AttributeSet
 import com.example.datepickerdemo.R
 import com.example.mpchart.animation.ChartAnimator
 import com.example.mpchart.charts.BarChart
+import com.example.mpchart.data.Entry
+import com.example.mpchart.formatter.IValueFormatter
 import com.example.mpchart.highlight.Highlight
 import com.example.mpchart.highlight.Range
 import com.example.mpchart.interfaces.dataprovider.BarDataProvider
@@ -55,6 +58,23 @@ class RoundedBarChart : BarChart {
     ) : BarChartRenderer(chart, animator, viewPortHandler) {
 
         private val path = Path()
+        private var ptTextCode = TextPaint()
+        private var barBox = RectF()
+        private val textInstruction = "Vào đánh giá"
+        private var widthTextCode = 0
+        private var heightTextCode = 0
+
+        init {
+            ptTextCode = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = Color.rgb(63, 63, 63)
+                textAlign = Align.CENTER
+                textSize = Utils.convertDpToPixel(9f)
+            }
+            val textCodeBounds = Rect()
+            ptTextCode.getTextBounds(textInstruction, 0, textInstruction.length, textCodeBounds)
+            widthTextCode = textCodeBounds.width()
+            heightTextCode = textCodeBounds.height()
+        }
 
         override fun drawHighlighted(c: Canvas, indices: Array<out Highlight>) {
             val barData = mChart.barData
@@ -165,6 +185,8 @@ class RoundedBarChart : BarChart {
 
             var j = 0
             while (j < buffer.size()) {
+                val entry = dataSet.getEntryForIndex(j / 4)
+                val _val = entry.y
                 if (!mViewPortHandler.isInBoundsLeft(buffer.buffer[j + 2])) {
                     j += 4
                     continue
@@ -176,9 +198,16 @@ class RoundedBarChart : BarChart {
                     mRenderPaint.color = dataSet.getColor(j / 4)
                 }
 
+                if (_val < 0)
+                    barBox = RectF(
+                        buffer.buffer[j],
+                        buffer.buffer[j + 1],
+                        buffer.buffer[j + 2],
+                        buffer.buffer[j + 3]
+                    )
                 fillRectRound(
                     buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
-                    buffer.buffer[j + 3], radius, radius, true
+                    buffer.buffer[j + 3], radius, radius, _val >= 0
                 )
 
                 c.drawPath(path, mRenderPaint)
@@ -189,7 +218,7 @@ class RoundedBarChart : BarChart {
             }
         }
 
-        override fun drawValues(c: Canvas?) {
+        override fun drawValues(c: Canvas) {
             if (isDrawingValuesAllowed(mChart)) {
                 val dataSets = mChart.barData.dataSets
                 val valueOffsetPlus = Utils.convertDpToPixel(4.5f)
@@ -240,7 +269,7 @@ class RoundedBarChart : BarChart {
                             if (dataSet.isDrawValuesEnabled) {
                                 drawValue(
                                     c, dataSet.valueFormatter, `val`, entry, i, x,
-                                    if (`val` >= 0) (buffer.buffer[j + 3] - buffer.buffer[j + 1]) / 2 + buffer.buffer[j + 1] + posOffset else buffer.buffer[j + 3] + negOffset,
+                                    (buffer.buffer[j + 3] - buffer.buffer[j + 1]) / 2 + buffer.buffer[j + 1] + posOffset,
                                     dataSet.getValueTextColor(j / 4)
                                 )
                             }
@@ -379,6 +408,60 @@ class RoundedBarChart : BarChart {
                     MPPointF.recycleInstance(iconsOffset)
                 }
             }
+        }
+
+        override fun drawValue(
+            c: Canvas,
+            formatter: IValueFormatter,
+            value: Float,
+            entry: Entry?,
+            dataSetIndex: Int,
+            x: Float,
+            y: Float,
+            color: Int
+        ) {
+            mValuePaint.color = color
+            ptTextCode.color = color
+            if (value < 0)
+//                c.drawText(textInstruction, x, y, mValuePaint)
+                drawTextInstructionCode(c, Utils.convertDpToPixel(9f), x, y)
+            else c.drawText(
+                formatter.getFormattedValue(
+                    value,
+                    entry,
+                    dataSetIndex,
+                    mViewPortHandler
+                ), x, y, mValuePaint
+            )
+        }
+
+        private fun drawTextInstructionCode(
+            canvas: Canvas,
+            currentFontSize: Float,
+            x: Float,
+            y: Float
+        ) {
+            if (widthTextCode > barBox.width()) {
+                var fontSizeCurrent = currentFontSize
+                var satisfy = false
+                do {
+                    fontSizeCurrent -= 1
+                    ptTextCode.textSize = fontSizeCurrent
+                    val textBounds = Rect()
+                    ptTextCode.getTextBounds(textInstruction, 0, textInstruction.length, textBounds)
+                    this.widthTextCode = textBounds.width()
+                    this.heightTextCode = textBounds.height()
+                    if (this.widthTextCode < barBox.width()) {
+                        satisfy = true
+                    }
+                } while (!satisfy)
+            }
+            canvas.drawText(
+                textInstruction,
+                x,
+                y,
+                ptTextCode
+            )
         }
 
         private fun fillRectRound(

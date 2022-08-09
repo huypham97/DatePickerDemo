@@ -2,6 +2,7 @@ package com.example.datepickerdemo
 
 import android.graphics.Typeface
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.datepickerdemo.chart.DayAxisValueFormatter
@@ -14,8 +15,11 @@ import com.example.mpchart.components.YAxis
 import com.example.mpchart.data.BarData
 import com.example.mpchart.data.BarDataSet
 import com.example.mpchart.data.BarEntry
+import com.example.mpchart.data.Entry
 import com.example.mpchart.formatter.IAxisValueFormatter
+import com.example.mpchart.highlight.Highlight
 import com.example.mpchart.interfaces.datasets.IBarDataSet
+import com.example.mpchart.listener.OnChartValueSelectedListener
 
 class ChartActivity : AppCompatActivity() {
 
@@ -91,6 +95,18 @@ class ChartActivity : AppCompatActivity() {
         mv.chartView = chart // For bounds control
 
         chart.marker = mv // Set the marker to the chart
+        chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+                if (e?.y == -1f) {
+                    Toast.makeText(this@ChartActivity, "Hello", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onNothingSelected() {
+                //
+            }
+
+        })
     }
 
     override fun onResume() {
@@ -103,10 +119,10 @@ class ChartActivity : AppCompatActivity() {
     private fun setData(count: Int, range: Float) {
         val values = listOf(
             BarEntry(1F, 6.5F),
-            BarEntry(2F, null),
+            BarEntry(2F, -1F),
             BarEntry(3F, 10F),
             BarEntry(4F, 4.6F),
-            BarEntry(5F, 2.76F),
+            BarEntry(5F, 1F),
             BarEntry(6F, 6.5F),
             BarEntry(7F, 8.2F),
             BarEntry(8F, 10F),
@@ -119,7 +135,7 @@ class ChartActivity : AppCompatActivity() {
             chart.data.dataSetCount > 0
         ) {
             set = chart.data.getDataSetByIndex(0) as BarDataSet
-            set.setValues(values)
+            set.entries = values
             chart.data.notifyDataChanged()
             chart.notifyDataSetChanged()
         } else {

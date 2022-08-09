@@ -67,8 +67,8 @@ public class BarBuffer extends AbstractBuffer<IBarDataSet> {
                     bottom = y >= 0 ? y : 0;
                     top = y <= 0 ? y : 0;
                 } else {
-                    top = y >= 0 ? y : 0;
-                    bottom = y <= 0 ? y : 0;
+                    top = y >= 0 ? y : 1;
+                    bottom = 0;
                 }
 
                 // multiply the height of the rect with the phase
