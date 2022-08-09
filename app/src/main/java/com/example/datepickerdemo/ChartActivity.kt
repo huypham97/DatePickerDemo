@@ -101,49 +101,39 @@ class ChartActivity : AppCompatActivity() {
     }
 
     private fun setData(count: Int, range: Float) {
-        val start = 1f
-        val values: ArrayList<BarEntry> = ArrayList()
-        var i = start.toInt()
-        /*while (i < start + count) {
-            val _val = (Math.random() * (range - 0) + 0).toFloat()
-            if (Math.random() * 100 < 25) {
-                values.add(BarEntry(i.toFloat(), _val, resources.getDrawable(R.drawable.star)))
-            } else {
-                values.add(BarEntry(i.toFloat(), _val))
-            }
-            i++
-        }*/
-        values.add(BarEntry(1F, 6.5F))
-        values.add(BarEntry(2F, 0F))
-        values.add(BarEntry(3F, 10F))
-        values.add(BarEntry(4F, 4.6F))
-        values.add(BarEntry(5F, 2.76F))
-        values.add(BarEntry(6F, 6.5F))
-        values.add(BarEntry(7F, 8.2F))
-        values.add(BarEntry(8F, 10F))
-        values.add(BarEntry(9F, 4.6F))
-        values.add(BarEntry(10F, 0F))
+        val values = listOf(
+            BarEntry(1F, 6.5F),
+            BarEntry(2F, null),
+            BarEntry(3F, 10F),
+            BarEntry(4F, 4.6F),
+            BarEntry(5F, 2.76F),
+            BarEntry(6F, 6.5F),
+            BarEntry(7F, 8.2F),
+            BarEntry(8F, 10F),
+            BarEntry(9F, 4.6F),
+            BarEntry(10F, 0F)
+        )
 
-        val set1: BarDataSet
+        val set: BarDataSet
         if (chart.data != null &&
             chart.data.dataSetCount > 0
         ) {
-            set1 = chart.data.getDataSetByIndex(0) as BarDataSet
-            set1.setValues(values)
+            set = chart.data.getDataSetByIndex(0) as BarDataSet
+            set.setValues(values)
             chart.data.notifyDataChanged()
             chart.notifyDataSetChanged()
         } else {
-            set1 = BarDataSet(values, "The year 2017")
-            set1.setDrawIcons(false)
-            set1.color = ContextCompat.getColor(this, R.color.pink)
-            set1.highLightColor = ContextCompat.getColor(this, R.color.pink_highlight)
-            set1.valueTextColor = ContextCompat.getColor(this, R.color.orange)
+            set = BarDataSet(values, "The year 2017")
+            set.setDrawIcons(false)
+            set.color = ContextCompat.getColor(this, R.color.pink)
+            set.highLightColor = ContextCompat.getColor(this, R.color.pink_highlight)
+            set.valueTextColor = ContextCompat.getColor(this, R.color.orange)
             val dataSets: ArrayList<IBarDataSet> = ArrayList()
-            dataSets.add(set1)
+            dataSets.add(set)
             val data = BarData(dataSets)
             data.setValueTextSize(10f)
             data.setValueTypeface(tfLight)
-            data.barWidth = 0.9f
+            data.barWidth = 0.7f
             chart.data = data
             chart.setVisibleXRangeMaximum(5F)
             chart.setVisibleXRangeMinimum(5F)

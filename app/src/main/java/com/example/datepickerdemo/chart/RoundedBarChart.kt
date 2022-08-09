@@ -70,7 +70,6 @@ class RoundedBarChart : BarChart {
                 val trans = mChart.getTransformer(set.axisDependency)
 
                 mHighlightPaint.color = set.highLightColor
-                mHighlightPaint.alpha = set.highLightAlpha
 
                 val isStack = high.stackIndex >= 0 && e.isStacked
 
