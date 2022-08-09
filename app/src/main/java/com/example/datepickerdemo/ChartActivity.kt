@@ -2,13 +2,12 @@ package com.example.datepickerdemo
 
 import android.graphics.Typeface
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.datepickerdemo.chart.DayAxisValueFormatter
 import com.example.datepickerdemo.chart.MyAxisValueFormatter
+import com.example.datepickerdemo.chart.RoundedBarChart
 import com.example.datepickerdemo.chart.XYMarkerView
-import com.example.mpchart.charts.BarChart
 import com.example.mpchart.components.Legend
 import com.example.mpchart.components.XAxis
 import com.example.mpchart.components.YAxis
@@ -17,25 +16,16 @@ import com.example.mpchart.data.BarDataSet
 import com.example.mpchart.data.BarEntry
 import com.example.mpchart.formatter.IAxisValueFormatter
 import com.example.mpchart.interfaces.datasets.IBarDataSet
-import com.example.mpchart.utils.Fill
 
 class ChartActivity : AppCompatActivity() {
 
-    private lateinit var chart: BarChart
-    private lateinit var button: Button
+    private lateinit var chart: RoundedBarChart
     private val tfLight = Typeface.DEFAULT
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chart)
         chart = findViewById(R.id.chart)
-        button = findViewById(R.id.btn_icon)
-
-        button.setOnClickListener {
-            for (set in chart.data.dataSets)
-                set.setDrawIcons(!set.isDrawIconsEnabled)
-            chart.invalidate()
-        }
 
         chart.setDrawBarShadow(false)
         chart.setDrawValueAboveBar(true)
@@ -73,12 +63,13 @@ class ChartActivity : AppCompatActivity() {
 
         val leftAxis = chart.axisLeft
         leftAxis.typeface = tfLight
-        leftAxis.setLabelCount(8, false)
+        leftAxis.setLabelCount(6, false)
         leftAxis.valueFormatter = custom
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         leftAxis.spaceTop = 15f
         leftAxis.axisMinimum = 0f
         leftAxis.axisMaximum = 10f// this replaces setStartAtZero(true)
+        leftAxis.setDrawAxisLine(false)
         leftAxis.enableGridDashedLine(10f, 10f, 0f)
 
 
@@ -123,15 +114,15 @@ class ChartActivity : AppCompatActivity() {
             i++
         }*/
         values.add(BarEntry(1F, 6.5F))
-        values.add(BarEntry(2F, 8.2F))
+        values.add(BarEntry(2F, 0F))
         values.add(BarEntry(3F, 10F))
         values.add(BarEntry(4F, 4.6F))
-        values.add(BarEntry(5F, 0F, ContextCompat.getDrawable(this, R.drawable.star)))
+        values.add(BarEntry(5F, 2.76F))
         values.add(BarEntry(6F, 6.5F))
         values.add(BarEntry(7F, 8.2F))
         values.add(BarEntry(8F, 10F))
         values.add(BarEntry(9F, 4.6F))
-        values.add(BarEntry(10F, 0F, ContextCompat.getDrawable(this, R.drawable.star)))
+        values.add(BarEntry(10F, 0F))
 
         val set1: BarDataSet
         if (chart.data != null &&
@@ -144,32 +135,18 @@ class ChartActivity : AppCompatActivity() {
         } else {
             set1 = BarDataSet(values, "The year 2017")
             set1.setDrawIcons(false)
-            val startColor1 = ContextCompat.getColor(this, android.R.color.holo_orange_light)
-            val startColor2 = ContextCompat.getColor(this, android.R.color.holo_blue_light)
-            val startColor3 = ContextCompat.getColor(this, android.R.color.holo_orange_light)
-            val startColor4 = ContextCompat.getColor(this, android.R.color.holo_green_light)
-            val startColor5 = ContextCompat.getColor(this, android.R.color.holo_red_light)
-            val endColor1 = ContextCompat.getColor(this, android.R.color.holo_blue_dark)
-            val endColor2 = ContextCompat.getColor(this, android.R.color.holo_purple)
-            val endColor3 = ContextCompat.getColor(this, android.R.color.holo_green_dark)
-            val endColor4 = ContextCompat.getColor(this, android.R.color.holo_red_dark)
-            val endColor5 = ContextCompat.getColor(this, android.R.color.holo_orange_dark)
-            val gradientFills: MutableList<Fill> = ArrayList()
-            gradientFills.add(Fill(startColor1, endColor1))
-            gradientFills.add(Fill(startColor2, endColor2))
-            gradientFills.add(Fill(startColor3, endColor3))
-            gradientFills.add(Fill(startColor4, endColor4))
-            gradientFills.add(Fill(startColor5, endColor5))
-            set1.fills = arrayListOf(Fill(ContextCompat.getColor(this, R.color.pink)))
+            set1.color = ContextCompat.getColor(this, R.color.pink)
             set1.highLightColor = ContextCompat.getColor(this, R.color.pink_highlight)
+            set1.valueTextColor = ContextCompat.getColor(this, R.color.orange)
             val dataSets: ArrayList<IBarDataSet> = ArrayList()
             dataSets.add(set1)
             val data = BarData(dataSets)
             data.setValueTextSize(10f)
             data.setValueTypeface(tfLight)
-            data.setBarWidth(0.9f)
+            data.barWidth = 0.9f
             chart.data = data
-
+            chart.setVisibleXRangeMaximum(5F)
+            chart.setVisibleXRangeMinimum(5F)
         }
     }
 }

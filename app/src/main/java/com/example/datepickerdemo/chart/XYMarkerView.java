@@ -1,4 +1,3 @@
-
 package com.example.datepickerdemo.chart;
 
 import android.annotation.SuppressLint;
@@ -40,7 +39,7 @@ public class XYMarkerView extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
-        tvContent.setText(String.format("x: %s, y: %s", xAxisValueFormatter.getFormattedValue(e.getX(), null), format.format(e.getY())));
+        tvContent.setText(String.format("%s", format.format(e.getY())));
 
         super.refreshContent(e, highlight);
     }
