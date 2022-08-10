@@ -30,4 +30,7 @@
     <color name="orange">#DA744F</color>
     <color name="pink_color">#FDEEE7</color>
     <color name="grey_color">#CBCBCB</color>
+    <color name="y_axis_text_color">#5A5564</color>
+    <color name="x_axis_text_color">#B3A8AA</color>
+    <color name="label_highlight_color">#1F1A1B</color>
 </resources>

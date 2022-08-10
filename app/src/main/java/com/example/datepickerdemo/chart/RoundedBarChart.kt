@@ -5,10 +5,12 @@ import android.graphics.*
 import android.graphics.Paint.Align
 import android.text.TextPaint
 import android.util.AttributeSet
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import com.example.datepickerdemo.R
 import com.example.mpchart.animation.ChartAnimator
 import com.example.mpchart.charts.BarChart
+import com.example.mpchart.components.XAxis
 import com.example.mpchart.data.Entry
 import com.example.mpchart.formatter.IValueFormatter
 import com.example.mpchart.highlight.Highlight
@@ -16,6 +18,7 @@ import com.example.mpchart.highlight.Range
 import com.example.mpchart.interfaces.dataprovider.BarDataProvider
 import com.example.mpchart.interfaces.datasets.IBarDataSet
 import com.example.mpchart.renderer.BarChartRenderer
+import com.example.mpchart.renderer.XAxisRenderer
 import com.example.mpchart.utils.MPPointF
 import com.example.mpchart.utils.Transformer
 import com.example.mpchart.utils.Utils
@@ -38,10 +41,19 @@ class RoundedBarChart : BarChart {
         readRadiusAttr(context, attrs)
     }
 
+    var selectedIndex = -1f
+    var isUpdated = HashMap<Float, Boolean>()
+
     private fun readRadiusAttr(context: Context, attrs: AttributeSet) {
         val a = context.theme.obtainStyledAttributes(attrs, R.styleable.RoundedBarChart, 0, 0)
         try {
             setRadius(a.getFloat(R.styleable.RoundedBarChart_radius, 0F))
+            setLabelHighLightColor(
+                a.getColor(
+                    R.styleable.RoundedBarChart_label_highlight_color,
+                    mXAxis.textColor
+                )
+            )
         } finally {
             a.recycle()
         }
@@ -53,7 +65,11 @@ class RoundedBarChart : BarChart {
         }
     }
 
-    class RoundedBarChartRenderer(
+    fun setLabelHighLightColor(@ColorInt color: Int) {
+        mXAxisRenderer = RoundedXAxisRender(mViewPortHandler, mXAxis, mLeftAxisTransformer, color)
+    }
+
+    inner class RoundedBarChartRenderer(
         chart: BarDataProvider,
         animator: ChartAnimator,
         viewPortHandler: ViewPortHandler,
@@ -526,6 +542,70 @@ class RoundedBarChart : BarChart {
             path.rLineTo(0f, -heightMinusCorners)
             path.close()
             return path
+        }
+    }
+
+    inner class RoundedXAxisRender(
+        viewPortHandler: ViewPortHandler?,
+        xAxis: XAxis?,
+        trans: Transformer?,
+        @ColorInt private val selectedColor: Int
+    ) :
+        XAxisRenderer(viewPortHandler, xAxis, trans) {
+
+        override fun drawLabels(c: Canvas?, pos: Float, anchor: MPPointF?) {
+            val labelRotationAngleDegrees = mXAxis.labelRotationAngle
+            val centeringEnabled = mXAxis.isCenterAxisLabelsEnabled
+
+            val positions = FloatArray(mXAxis.mEntryCount * 2)
+
+            var i = 0
+            while (i < positions.size) {
+
+                // only fill x values
+                if (centeringEnabled) {
+                    positions[i] = mXAxis.mCenteredEntries[i / 2]
+                } else {
+                    positions[i] = mXAxis.mEntries[i / 2]
+                }
+                if (selectedIndex != positions[i]) {
+                    isUpdated[mXAxis.mEntries[i / 2]] = false
+                }
+                i += 2
+            }
+
+            mTrans.pointValuesToPixel(positions)
+
+            i = 0
+            while (i < positions.size) {
+                var x = positions[i]
+                if (mViewPortHandler.isInBoundsX(x)) {
+                    val label =
+                        mXAxis.valueFormatter.getFormattedValue(mXAxis.mEntries[i / 2], mXAxis)
+                    if (mXAxis.isAvoidFirstLastClippingEnabled) {
+
+                        // avoid clipping of the last
+                        if (i / 2 == mXAxis.mEntryCount - 1 && mXAxis.mEntryCount > 1) {
+                            val width = Utils.calcTextWidth(mAxisLabelPaint, label).toFloat()
+                            if (width > mViewPortHandler.offsetRight() * 2
+                                && x + width > mViewPortHandler.chartWidth
+                            ) x -= width / 2
+
+                            // avoid clipping of the first
+                        } else if (i == 0) {
+                            val width = Utils.calcTextWidth(mAxisLabelPaint, label).toFloat()
+                            x += width / 2
+                        }
+                    }
+                    if (isUpdated[mAxis.mEntries[i / 2]] == true && selectedIndex != -1f) {
+                        mAxisLabelPaint.color = selectedColor
+                    } else {
+                        mAxisLabelPaint.color = mAxis.textColor
+                    }
+                    drawLabel(c, label, x, pos, anchor, labelRotationAngleDegrees)
+                }
+                i += 2
+            }
         }
     }
 }

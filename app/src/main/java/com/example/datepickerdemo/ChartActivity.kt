@@ -61,6 +61,7 @@ class ChartActivity : AppCompatActivity() {
             labelCount = 7
             valueFormatter = xAxisFormatter
             setDrawAxisLine(false)
+            textColor = ContextCompat.getColor(this@ChartActivity, R.color.x_axis_text_color)
         }
 
         val custom: IAxisValueFormatter = MyAxisValueFormatter()
@@ -77,6 +78,7 @@ class ChartActivity : AppCompatActivity() {
             gridColor = ContextCompat.getColor(this@ChartActivity, R.color.grey_color)
             gridLineWidth = 1f
             enableGridDashedLine(10f, 10f, 0f)
+            textColor = ContextCompat.getColor(this@ChartActivity, R.color.y_axis_text_color)
         }
 
         chart.axisRight.isEnabled = false
@@ -94,10 +96,15 @@ class ChartActivity : AppCompatActivity() {
                 if (e?.y == -1f) {
                     Toast.makeText(this@ChartActivity, "Hello", Toast.LENGTH_SHORT).show()
                 }
+                e?.let {
+                    chart.isUpdated[it.x] = true
+                    chart.selectedIndex = it.x
+                }
             }
 
             override fun onNothingSelected() {
-                //
+                if (chart.selectedIndex != -1f)
+                    chart.isUpdated[chart.selectedIndex] = false
             }
 
         })

@@ -3,5 +3,6 @@
     <declare-styleable name="RoundedBarChart">
         <attr name="radius" format="float" />
         <attr name="evaluate_button_color" format="color|reference" />
+        <attr name="label_highlight_color" format="color|reference" />
     </declare-styleable>
 </resources>
