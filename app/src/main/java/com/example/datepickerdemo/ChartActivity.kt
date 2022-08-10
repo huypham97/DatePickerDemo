@@ -73,7 +73,7 @@ class ChartActivity : AppCompatActivity() {
             setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
             spaceTop = 15f
             axisMinimum = 0f
-            axisMaximum = 10f// this replaces setStartAtZero(true)
+            axisMaximum = 11f// this replaces setStartAtZero(true)
             setDrawAxisLine(false)
             gridColor = ContextCompat.getColor(this@ChartActivity, R.color.grey_color)
             gridLineWidth = 1f
