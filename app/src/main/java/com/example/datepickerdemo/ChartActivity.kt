@@ -9,7 +9,6 @@ import com.example.datepickerdemo.chart.DayAxisValueFormatter
 import com.example.datepickerdemo.chart.MyAxisValueFormatter
 import com.example.datepickerdemo.chart.RoundedBarChart
 import com.example.datepickerdemo.chart.XYMarkerView
-import com.example.mpchart.components.Legend
 import com.example.mpchart.components.XAxis
 import com.example.mpchart.components.YAxis
 import com.example.mpchart.data.BarData
@@ -113,16 +112,16 @@ class ChartActivity : AppCompatActivity() {
 
     private fun setData(count: Int, range: Float) {
         val values = listOf(
-            BarEntry(1F, 6.5F),
-            BarEntry(2F, -1F),
-            BarEntry(3F, 10F),
-            BarEntry(4F, 4.6F),
-            BarEntry(5F, 1F),
-            BarEntry(6F, 6.5F),
-            BarEntry(7F, 8.2F),
-            BarEntry(8F, 10F),
-            BarEntry(9F, 4.6F),
-            BarEntry(10F, 0F)
+            BarEntry(1F, 6.5F, "01/06"),
+            BarEntry(2F, -1F, "02/06"),
+            BarEntry(3F, 10F, "03/06"),
+            BarEntry(4F, 4.6F, "04/06"),
+            BarEntry(5F, 1F, "05/06"),
+            BarEntry(6F, 6.5F, "06/06"),
+            BarEntry(7F, 8.2F, "07/06"),
+            BarEntry(8F, 10F, "08/06"),
+            BarEntry(9F, 4.6F, "09/06"),
+            BarEntry(10F, 0F, "10/06")
         )
 
         val set: BarDataSet

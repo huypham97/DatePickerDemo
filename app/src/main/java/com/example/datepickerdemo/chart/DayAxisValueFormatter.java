@@ -2,7 +2,12 @@ package com.example.datepickerdemo.chart;
 
 import com.example.mpchart.charts.BarLineChartBase;
 import com.example.mpchart.components.AxisBase;
+import com.example.mpchart.data.BarData;
+import com.example.mpchart.data.BarDataSet;
+import com.example.mpchart.data.BarEntry;
 import com.example.mpchart.formatter.IAxisValueFormatter;
+
+import java.util.List;
 
 /**
  * Created by philipp on 02/06/16.
@@ -23,15 +28,22 @@ public class DayAxisValueFormatter implements IAxisValueFormatter
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
 
-        int days = (int) value;
+        /*int days = (int) value;
 
         int year = determineYear(days);
 
         int month = determineMonth(days);
         String monthName = mMonths[month % mMonths.length];
-        String yearName = String.valueOf(year);
+        String yearName = String.valueOf(year);*/
 
-        if (chart.getVisibleXRange() > 30 * 6) {
+        List<BarEntry> entries = ((BarDataSet) ((BarData) chart.getData()).getDataSets().get(0)).getEntries();
+        for (int i = 0; i < entries.size(); i++) {
+            if (entries.get(i).getX() == value) {
+                return entries.get(i).getData().toString();
+            }
+        }
+        return "";
+/*        if (chart.getVisibleXRange() > 30 * 6) {
 
             return monthName + " " + yearName;
         } else {
@@ -65,7 +77,7 @@ public class DayAxisValueFormatter implements IAxisValueFormatter
             }
 
             return dayOfMonth == 0 ? "" : dayOfMonth + appendix + " " + monthName;
-        }
+        }*/
     }
 
     private int getDaysForMonth(int month, int year) {
