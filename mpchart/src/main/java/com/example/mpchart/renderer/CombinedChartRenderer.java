@@ -88,10 +88,10 @@ public class CombinedChartRenderer extends DataRenderer {
     }
 
     @Override
-    public void drawValues(Canvas c) {
+    public void drawValues(Canvas c, Highlight[] coordinates) {
 
         for (DataRenderer renderer : mRenderers)
-            renderer.drawValues(c);
+            renderer.drawValues(c, null);
     }
 
     @Override

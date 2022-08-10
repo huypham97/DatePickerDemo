@@ -147,7 +147,7 @@ public class RadarChartRenderer extends LineRadarRenderer {
     }
 
     @Override
-    public void drawValues(Canvas c) {
+    public void drawValues(Canvas c, Highlight[] coordinates) {
 
         float phaseX = mAnimator.getPhaseX();
         float phaseY = mAnimator.getPhaseY();

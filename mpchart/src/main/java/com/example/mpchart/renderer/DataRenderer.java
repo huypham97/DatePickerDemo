@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 
+import androidx.annotation.Nullable;
+
 import com.example.mpchart.animation.ChartAnimator;
 import com.example.mpchart.data.Entry;
 import com.example.mpchart.formatter.IValueFormatter;
@@ -130,8 +132,9 @@ public abstract class DataRenderer extends Renderer {
      * Loops over all Entrys and draws their values.
      *
      * @param c
+     * @param coordinates
      */
-    public abstract void drawValues(Canvas c);
+    public abstract void drawValues(Canvas c, @Nullable Highlight[] coordinates);
 
     /**
      * Draws the value of the given entry by using the provided IValueFormatter.

@@ -532,7 +532,7 @@ public class LineChartRenderer extends LineRadarRenderer {
     }
 
     @Override
-    public void drawValues(Canvas c) {
+    public void drawValues(Canvas c, Highlight[] coordinates) {
 
         if (isDrawingValuesAllowed(mChart)) {
 

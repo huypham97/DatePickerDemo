@@ -28,4 +28,6 @@
     <color name="pink">#F1DAFF</color>
     <color name="pink_highlight">#A970E2</color>
     <color name="orange">#DA744F</color>
+    <color name="pink_color">#FDEEE7</color>
+    <color name="grey_color">#CBCBCB</color>
 </resources>

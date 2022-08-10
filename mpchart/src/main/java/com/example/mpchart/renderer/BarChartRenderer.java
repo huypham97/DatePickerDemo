@@ -201,7 +201,7 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
     }
 
     @Override
-    public void drawValues(Canvas c) {
+    public void drawValues(Canvas c, Highlight[] coordinates) {
 
         // if values are drawn
         if (isDrawingValuesAllowed(mChart)) {

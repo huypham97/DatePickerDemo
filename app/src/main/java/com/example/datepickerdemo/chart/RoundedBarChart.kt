@@ -5,6 +5,7 @@ import android.graphics.*
 import android.graphics.Paint.Align
 import android.text.TextPaint
 import android.util.AttributeSet
+import androidx.core.content.ContextCompat
 import com.example.datepickerdemo.R
 import com.example.mpchart.animation.ChartAnimator
 import com.example.mpchart.charts.BarChart
@@ -47,7 +48,9 @@ class RoundedBarChart : BarChart {
     }
 
     fun setRadius(radius: Float) {
-        renderer = RoundedBarChartRenderer(this, animator, viewPortHandler, radius)
+        renderer = RoundedBarChartRenderer(this, animator, viewPortHandler, radius).apply {
+            setEvaluateButtonColor(ContextCompat.getColor(context, R.color.pink_color))
+        }
     }
 
     class RoundedBarChartRenderer(
@@ -63,6 +66,7 @@ class RoundedBarChart : BarChart {
         private val textInstruction = "Vào đánh giá"
         private var widthTextCode = 0
         private var heightTextCode = 0
+        private var evaluateButtonColor = 0
 
         init {
             ptTextCode = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -198,13 +202,18 @@ class RoundedBarChart : BarChart {
                     mRenderPaint.color = dataSet.getColor(j / 4)
                 }
 
-                if (_val < 0)
+                if (_val < 0) {
                     barBox = RectF(
                         buffer.buffer[j],
                         buffer.buffer[j + 1],
                         buffer.buffer[j + 2],
                         buffer.buffer[j + 3]
                     )
+                    mRenderPaint.color = evaluateButtonColor
+                } else {
+                    mRenderPaint.color = dataSet.color
+                }
+
                 fillRectRound(
                     buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
                     buffer.buffer[j + 3], radius, radius, _val >= 0
@@ -218,7 +227,7 @@ class RoundedBarChart : BarChart {
             }
         }
 
-        override fun drawValues(c: Canvas) {
+        override fun drawValues(c: Canvas, coordinates: Array<Highlight>?) {
             if (isDrawingValuesAllowed(mChart)) {
                 val dataSets = mChart.barData.dataSets
                 val valueOffsetPlus = Utils.convertDpToPixel(4.5f)
@@ -265,19 +274,21 @@ class RoundedBarChart : BarChart {
                                 continue
                             }
                             val entry = dataSet.getEntryForIndex(j / 4)
-                            val `val` = entry.y
-                            if (dataSet.isDrawValuesEnabled) {
-                                drawValue(
-                                    c, dataSet.valueFormatter, `val`, entry, i, x,
-                                    (buffer.buffer[j + 3] - buffer.buffer[j + 1]) / 2 + buffer.buffer[j + 1] + posOffset,
-                                    dataSet.getValueTextColor(j / 4)
-                                )
+                            val _val = entry.y
+                            if (entry.x != coordinates?.get(0)?.x || _val < 0) {
+                                if (dataSet.isDrawValuesEnabled) {
+                                    drawValue(
+                                        c, dataSet.valueFormatter, _val, entry, i, x,
+                                        (buffer.buffer[j + 3] - buffer.buffer[j + 1]) / 2 + buffer.buffer[j + 1] + posOffset,
+                                        dataSet.getValueTextColor(j / 4)
+                                    )
+                                }
                             }
                             if (entry.icon != null && dataSet.isDrawIconsEnabled) {
                                 val icon = entry.icon
                                 var px = x
                                 var py =
-                                    if (`val` >= 0) buffer.buffer[j + 1] + posOffset else buffer.buffer[j + 3] + negOffset
+                                    if (_val >= 0) buffer.buffer[j + 1] + posOffset else buffer.buffer[j + 3] + negOffset
                                 px += iconsOffset.x
                                 py += iconsOffset.y
                                 Utils.drawImage(
@@ -435,12 +446,18 @@ class RoundedBarChart : BarChart {
             )
         }
 
+        fun setEvaluateButtonColor(color: Int) {
+            this.evaluateButtonColor = color
+        }
+
         private fun drawTextInstructionCode(
             canvas: Canvas,
             currentFontSize: Float,
             x: Float,
             y: Float
         ) {
+            val widthPadding = Utils.convertDpToPixel(2.5f)
+            val heightPadding = Utils.convertDpToPixel(8f)
             if (widthTextCode > barBox.width()) {
                 var fontSizeCurrent = currentFontSize
                 var satisfy = false
@@ -451,7 +468,7 @@ class RoundedBarChart : BarChart {
                     ptTextCode.getTextBounds(textInstruction, 0, textInstruction.length, textBounds)
                     this.widthTextCode = textBounds.width()
                     this.heightTextCode = textBounds.height()
-                    if (this.widthTextCode < barBox.width()) {
+                    if (this.widthTextCode + widthPadding * 2 <= barBox.width()) {
                         satisfy = true
                     }
                 } while (!satisfy)
@@ -459,7 +476,7 @@ class RoundedBarChart : BarChart {
             canvas.drawText(
                 textInstruction,
                 x,
-                y,
+                y + heightPadding,
                 ptTextCode
             )
         }

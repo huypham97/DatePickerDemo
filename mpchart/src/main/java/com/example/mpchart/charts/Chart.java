@@ -793,7 +793,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             int entryIndex = set.getEntryIndex(e);
 
             // make sure entry not null
-            if (e == null || entryIndex > set.getEntryCount() * mAnimator.getPhaseX())
+            if (e == null || entryIndex > set.getEntryCount() * mAnimator.getPhaseX() || e.getY() < 0)
                 continue;
 
             float[] pos = getMarkerPosition(highlight);

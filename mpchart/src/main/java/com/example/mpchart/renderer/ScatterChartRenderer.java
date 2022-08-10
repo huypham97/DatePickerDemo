@@ -93,7 +93,7 @@ public class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
     }
 
     @Override
-    public void drawValues(Canvas c) {
+    public void drawValues(Canvas c, Highlight[] coordinates) {
 
         // if values are drawn
         if (isDrawingValuesAllowed(mChart)) {

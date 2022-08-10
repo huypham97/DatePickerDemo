@@ -404,7 +404,7 @@ public class PieChartRenderer extends DataRenderer {
     }
 
     @Override
-    public void drawValues(Canvas c) {
+    public void drawValues(Canvas c, Highlight[] coordinates) {
 
         MPPointF center = mChart.getCenterCircleBox();
 

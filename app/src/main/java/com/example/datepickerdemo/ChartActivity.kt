@@ -54,46 +54,41 @@ class ChartActivity : AppCompatActivity() {
         // chart.setDrawYLabels(false);
         val xAxisFormatter: IAxisValueFormatter = DayAxisValueFormatter(chart)
 
-        val xAxis = chart.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.typeface = tfLight
-        xAxis.setDrawGridLines(false)
-        xAxis.granularity = 1f // only intervals of 1 day
-
-        xAxis.labelCount = 7
-        xAxis.valueFormatter = xAxisFormatter
+        chart.xAxis.apply {
+            position = XAxis.XAxisPosition.BOTTOM
+            typeface = tfLight
+            setDrawGridLines(false)
+            granularity = 1f // only intervals of 1 day
+            labelCount = 7
+            valueFormatter = xAxisFormatter
+            setDrawAxisLine(false)
+        }
 
         val custom: IAxisValueFormatter = MyAxisValueFormatter()
 
-        val leftAxis = chart.axisLeft
-        leftAxis.typeface = tfLight
-        leftAxis.setLabelCount(6, false)
-        leftAxis.valueFormatter = custom
-        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
-        leftAxis.spaceTop = 15f
-        leftAxis.axisMinimum = 0f
-        leftAxis.axisMaximum = 10f// this replaces setStartAtZero(true)
-        leftAxis.setDrawAxisLine(false)
-        leftAxis.enableGridDashedLine(10f, 10f, 0f)
-
+        chart.axisLeft.apply {
+            typeface = tfLight
+            setLabelCount(6, false)
+            valueFormatter = custom
+            setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
+            spaceTop = 15f
+            axisMinimum = 0f
+            axisMaximum = 10f// this replaces setStartAtZero(true)
+            setDrawAxisLine(false)
+            gridColor = ContextCompat.getColor(this@ChartActivity, R.color.grey_color)
+            gridLineWidth = 1f
+            enableGridDashedLine(10f, 10f, 0f)
+        }
 
         chart.axisRight.isEnabled = false
         chart.isScaleYEnabled = false
 
-
-        val l = chart.legend
-        l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-        l.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
-        l.orientation = Legend.LegendOrientation.HORIZONTAL
-        l.setDrawInside(false)
-        l.form = Legend.LegendForm.SQUARE
-        l.formSize = 9f
-        l.textSize = 11f
-        l.xEntrySpace = 4f
+        chart.legend.isEnabled = false
 
         val mv = XYMarkerView(this, xAxisFormatter)
         mv.chartView = chart // For bounds control
 
+        chart.animateY(500)
         chart.marker = mv // Set the marker to the chart
         chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -149,7 +144,7 @@ class ChartActivity : AppCompatActivity() {
             val data = BarData(dataSets)
             data.setValueTextSize(10f)
             data.setValueTypeface(tfLight)
-            data.barWidth = 0.7f
+            data.barWidth = 0.8f
             chart.data = data
             chart.setVisibleXRangeMaximum(5F)
             chart.setVisibleXRangeMinimum(5F)

@@ -116,7 +116,7 @@ public class BubbleChartRenderer extends BarLineScatterCandleBubbleRenderer {
     }
 
     @Override
-    public void drawValues(Canvas c) {
+    public void drawValues(Canvas c, Highlight[] coordinates) {
 
         BubbleData bubbleData = mChart.getBubbleData();
 
