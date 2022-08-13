@@ -118,6 +118,7 @@ class DateEducaRecyclerViewAdapter(context: Context) :
                 isEnabled = dateSelect.available
             }
 
+            dateSelect.isNotify = true
             vNotify.visibility = if (dateSelect.isNotify) View.VISIBLE else View.GONE
 
             vMain.apply {
