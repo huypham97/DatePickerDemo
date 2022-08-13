@@ -59,91 +59,21 @@
         android:layout_marginTop="20dp"
         android:background="#E4E5E7" />
 
-    <LinearLayout
-        android:id="@+id/ll_days_of_week"
+    <TableLayout
+        android:id="@+id/tl_days_of_week"
         android:layout_width="match_parent"
         android:layout_height="24dp"
         android:layout_below="@id/v_line"
         android:layout_marginTop="16dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="T2"
-            android:textColor="#988F90"
-            android:textSize="11sp"
-            tools:ignore="SmallSp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="T3"
-            android:textColor="#988F90"
-            android:textSize="11sp"
-            tools:ignore="SmallSp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="T4"
-            android:textColor="#988F90"
-            android:textSize="11sp"
-            tools:ignore="SmallSp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="T5"
-            android:textColor="#988F90"
-            android:textSize="11sp"
-            tools:ignore="SmallSp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="T6"
-            android:textColor="#988F90"
-            android:textSize="11sp"
-            tools:ignore="SmallSp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="T7"
-            android:textColor="#988F90"
-            android:textSize="11sp"
-            tools:ignore="SmallSp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="CN"
-            android:textColor="#988F90"
-            android:textSize="11sp"
-            tools:ignore="SmallSp" />
-
-    </LinearLayout>
+    </TableLayout>
 
     <ScrollView
         android:id="@+id/sv_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ll_days_of_week">
+        android:layout_below="@id/tl_days_of_week">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_calendar"

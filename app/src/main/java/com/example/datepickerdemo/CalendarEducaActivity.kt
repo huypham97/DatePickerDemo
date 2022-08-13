@@ -1,10 +1,13 @@
 package com.example.datepickerdemo
 
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.calendarview.DateEducaRecyclerViewAdapter
 import com.example.calendarview.DaysOfMonthEducaGenerator
 import com.example.calendarview.view.CollapsibleCalendarView
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -40,14 +43,11 @@ class CalendarEducaActivity : AppCompatActivity(),
     }
 
     override fun onGenDateSelectCompleted(date: Long) {
-        val calendarCurrent = Calendar.getInstance()
-        calendarCurrent.timeInMillis = date
+        val dateFormat = SimpleDateFormat("MMMM/yyyy", getCurrentLocale(this))
+        val calendar = Calendar.getInstance().apply { timeInMillis = date }
+        dateFormat.timeZone = calendar.timeZone
         calendarView.setMonthYearData(
-            "Tháng ${calendarCurrent.get(Calendar.MONTH) + 1}/${
-                calendarCurrent.get(
-                    Calendar.YEAR
-                )
-            }"
+            dateFormat.format(calendar.time)
         )
         daysOfMonthGenerator?.bindDataGenDays()
     }
@@ -59,4 +59,12 @@ class CalendarEducaActivity : AppCompatActivity(),
         calendarView.replaceDataList(dateSelects)
     }
 
+    fun getCurrentLocale(context: Context): Locale {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            context.resources.configuration.locales.get(0)
+        } else {
+
+            context.resources.configuration.locale
+        }
+    }
 }

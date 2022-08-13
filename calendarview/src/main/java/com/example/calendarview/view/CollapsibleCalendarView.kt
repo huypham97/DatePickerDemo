@@ -6,10 +6,12 @@ import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.GridLayout
 import com.example.calendarview.common.BaseCalendarView
+import java.util.*
 
 class CollapsibleCalendarView : BaseCalendarView {
 
     private var mInitHeight: Int = 0
+    private var itemHeight = 0
     var expanded = false
 
     constructor(context: Context?) : super(context)
@@ -59,8 +61,18 @@ class CollapsibleCalendarView : BaseCalendarView {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (rv.measuredHeight > mInitHeight)
-            mInitHeight = rv.measuredHeight
+        val row = rv.adapter?.let { handleCalendarHeight(it.itemCount) } ?: 1
+        if (rv.measuredHeight.div(row) > itemHeight) {
+            itemHeight = rv.measuredHeight.div(row)
+            mInitHeight = itemHeight * row
+        }
+    }
+
+    private fun handleCalendarHeight(count: Int): Int {
+        val weeksOfMonth = count.div(Calendar.DAY_OF_WEEK)
+        val weekSurplus = count % Calendar.DAY_OF_WEEK
+        if (weekSurplus > 0) return weeksOfMonth + 1
+        return weeksOfMonth
     }
 
     private fun collapse(duration: Int) {

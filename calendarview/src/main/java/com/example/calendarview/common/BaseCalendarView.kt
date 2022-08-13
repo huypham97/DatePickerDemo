@@ -4,15 +4,17 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.ImageButton
-import android.widget.ScrollView
-import android.widget.TextView
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calendarview.DateEducaRecyclerViewAdapter
 import com.example.calendarview.DateSelect
 import com.example.calendarview.R
 import com.example.calendarview.view.ExpandIconView
+import java.text.DateFormatSymbols
+import java.util.*
 
 abstract class BaseCalendarView : ScrollView {
 
@@ -28,6 +30,7 @@ abstract class BaseCalendarView : ScrollView {
     private lateinit var btnMonthNext: ImageButton
     private lateinit var tvMonthYear: TextView
     protected lateinit var svContainer: ScrollView
+    private lateinit var tableHead: TableLayout
 
     open var state = STATE_COLLAPSED
 
@@ -36,6 +39,7 @@ abstract class BaseCalendarView : ScrollView {
         const val STATE_EXPANDED = 0
         const val STATE_COLLAPSED = 1
         const val STATE_PROCESSING = 2
+        const val FIRST_DAY_OF_WEEK = Calendar.SUNDAY
     }
 
     constructor(context: Context?) : super(context) {
@@ -63,6 +67,9 @@ abstract class BaseCalendarView : ScrollView {
         btnMonthNext = rootView.findViewById(R.id.ib_month_next)
         tvMonthYear = rootView.findViewById(R.id.tv_month_year)
         svContainer = rootView.findViewById(R.id.sv_container)
+        tableHead = rootView.findViewById(R.id.tl_days_of_week)
+
+        setDaysOfWeekLabel()
 
         mAdapter = DateEducaRecyclerViewAdapter(context)
         listener?.let { mAdapter.setOnDateSelectListener(it) }
@@ -76,6 +83,7 @@ abstract class BaseCalendarView : ScrollView {
         btnMonthNext.setOnClickListener {
             onButtonNextClickListener?.invoke()
         }
+
     }
 
     fun setExpandIconColor(color: Int) {
@@ -102,5 +110,25 @@ abstract class BaseCalendarView : ScrollView {
 
     fun setMonthYearData(data: String) {
         this.tvMonthYear.text = data
+    }
+
+    private fun setDaysOfWeekLabel() {
+        val rowCurrent = TableRow(context)
+        rowCurrent.layoutParams = TableLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        for (i in 0..6) {
+            val view = mInflater.inflate(R.layout.layout_day_of_week, null)
+            val txtDayOfWeek = view.findViewById<View>(R.id.txt_day_of_week) as TextView
+            txtDayOfWeek.text = DateFormatSymbols().shortWeekdays[(i + FIRST_DAY_OF_WEEK) % 7 + 1]
+            view.layoutParams = TableRow.LayoutParams(
+                0,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+            rowCurrent.addView(view)
+        }
+        tableHead.addView(rowCurrent)
     }
 }
