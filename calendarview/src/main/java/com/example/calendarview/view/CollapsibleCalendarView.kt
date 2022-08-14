@@ -35,6 +35,9 @@ class CollapsibleCalendarView : BaseCalendarView {
         }
 
         post { collapseTo(0) }
+        viewModel.currentDayIndex.observe(this) {
+            rv.layoutManager?.scrollToPosition(it)
+        }
     }
 
     private fun collapseTo(index: Int) {
@@ -42,6 +45,7 @@ class CollapsibleCalendarView : BaseCalendarView {
             val targetHeight = rv.getChildAt(index).measuredHeight
             svContainer.apply {
                 layoutParams.height = targetHeight
+                rv.layoutManager?.scrollToPosition(viewModel.currentDayIndex.value ?: 0)
                 requestLayout()
             }
         }
@@ -88,6 +92,7 @@ class CollapsibleCalendarView : BaseCalendarView {
                             layoutParams.height =
                                 if (interpolatedTime == 1F) targetHeight else currentHeight - ((currentHeight - targetHeight) * interpolatedTime).toInt()
                         }
+                        rv.layoutManager?.scrollToPosition(viewModel.currentDayIndex.value ?: 0)
                         requestLayout()
                         if (interpolatedTime == 1F)
                             state = STATE_COLLAPSED

@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calendarview.DateEducaRecyclerViewAdapter
@@ -16,7 +19,7 @@ import com.example.calendarview.view.ExpandIconView
 import java.text.DateFormatSymbols
 import java.util.*
 
-abstract class BaseCalendarView : ScrollView {
+abstract class BaseCalendarView : ScrollView, LifecycleOwner {
 
     private var onButtonPrevClickListener: (() -> Unit)? = null
     private var onButtonNextClickListener: (() -> Unit)? = null
@@ -31,6 +34,8 @@ abstract class BaseCalendarView : ScrollView {
     private lateinit var tvMonthYear: TextView
     protected lateinit var svContainer: ScrollView
     private lateinit var tableHead: TableLayout
+    protected var viewModel: CalendarViewModel = CalendarViewModel()
+    protected val lifecycleRegistry = LifecycleRegistry(this);
 
     open var state = STATE_COLLAPSED
 
@@ -56,6 +61,18 @@ abstract class BaseCalendarView : ScrollView {
         defStyleAttr
     ) {
         initViews()
+    }
+
+    override fun getLifecycle() = lifecycleRegistry
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        lifecycleRegistry.currentState = Lifecycle.State.RESUMED
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
     }
 
     protected open fun initViews() {
@@ -98,6 +115,7 @@ abstract class BaseCalendarView : ScrollView {
 
     fun replaceDataList(days: MutableList<DateSelect>) {
         mAdapter.replaceDataList(days)
+        viewModel.getCurrentDayIndex(days)
     }
 
     fun setOnButtonPrevClickListener(onButtonPrevClickListener: (() -> Unit)) {
